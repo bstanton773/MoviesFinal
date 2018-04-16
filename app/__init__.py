@@ -12,5 +12,4 @@ migrate = Migrate(app, db)
 from flask_login import LoginManager
 login = LoginManager(app)
 
-from app import routes
-from app import models
+from app import routes, models, user_routes

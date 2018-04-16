@@ -13,6 +13,13 @@
             <a class="p-2 text-dark" href="#">Link 1</a>
             <a class="p-2 text-dark" href="#">Link 2</a>
         </nav>
+        {% if current_user.is_anonymous %}
+        <a class="btn btn-outline-primary" href="{{url_for('register')}}">Sign up</a>
+        <a class="btn btn-link text-dark" href="{{url_for('login')}}">Login</a>
+        {% else %}
+        <a class="btn btn-link text-dark" href="{{url_for('logout')}}">Logout</a>
+        <div>Hello, {{current_user.username}}!</div>
+        {% endif %}
     </div>
     <div>
         {% with messages = get_flashed_messages() %}
