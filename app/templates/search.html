@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="search" method="post">
+    {{form.hidden_tag()}}
+    <p>
+        {{form.search.label}}<br>
+        {{form.search(size=64)}}
+    </p>
+    <p>
+        {{form.submit()}}
+    </p>
+</form>
+<ol>
+    {% for movie in movies %}
+    <li>{{movie.title}}</li>
+    {% endfor %}
+</ol>
+
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
