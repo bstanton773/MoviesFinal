@@ -18,3 +18,9 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class Movies(db.Model):
+    movieId = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(400))
+    genres = db.Column(db.String(400))
+    year = db.Column(db.Integer)
