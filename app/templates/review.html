@@ -24,6 +24,10 @@
         {{form.submit()}}
     </p>
 </form>
+<h3>See what others have said about the movie:</h3>
+{% for comment in comments %}
+<p>{{ comment.username }} - {{ comment.comment }}</p>
+{% endfor %}
 {% endblock %}
 
 {% block js %}

@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
-from app.models import Movies, Reviews
+from app.models import Movies, Reviews, User
 from app.forms import SearchForm, ReviewForm
 from flask_login import current_user
 
@@ -35,9 +35,13 @@ def review(movieId):
             rating_comment = Reviews(user_id=current_user.id, movie_id=movieId, rating=form.rating.data, comment=form.comment.data)
             db.session.add(rating_comment)
             db.session.commit()
-        return redirect(url_for('index'))
     movie = Movies.query.filter_by(movieId = movieId).first()
-    return render_template('review.html', movie = movie, title='Review', form=form)
+    comments = Reviews.query.filter_by(movie_id = movieId).join(
+        Movies, Reviews.movie_id == Movies.movieId).join(
+        User, Reviews.user_id == User.id).add_columns(
+        Movies.title, Movies.movieId, Reviews.comment, User.username).all()
+    print(comments)
+    return render_template('review.html', movie = movie, title='Review', form=form, comments=comments)
 
 @app.route('/watchlist')
 def watchlist():
