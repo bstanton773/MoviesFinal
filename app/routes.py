@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash
 from app.models import Movies, Reviews
-from app.forms import SearchForm
+from app.forms import SearchForm, ReviewForm
 from flask_login import current_user
 
 
@@ -21,12 +21,23 @@ def search():
         movies = Movies.query.limit(10)
     return render_template('search.html', form=form, movies=movies, title='Search')
 
-@app.route('/review/<int:movieId>')
+@app.route('/review/<int:movieId>', methods=['GET','POST'])
 def review(movieId):
     if current_user.is_anonymous:
         return redirect(url_for('login'))
+    form = ReviewForm()
+    if form.validate_on_submit():
+        if len(form.comment.data) == 0:
+            rating = Reviews(user_id = current_user.id, movie_id = movieId, rating=form.rating.data)
+            db.session.add(rating)
+            db.session.commit()
+        else:
+            rating_comment = Reviews(user_id=current_user.id, movie_id=movieId, rating=form.rating.data, comment=form.comment.data)
+            db.session.add(rating_comment)
+            db.session.commit()
+        return redirect(url_for('index'))
     movie = Movies.query.filter_by(movieId = movieId).first()
-    return render_template('review.html', movie = movie, title='Review')
+    return render_template('review.html', movie = movie, title='Review', form=form)
 
 @app.route('/watchlist')
 def watchlist():

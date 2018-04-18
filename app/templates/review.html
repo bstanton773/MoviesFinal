@@ -7,6 +7,23 @@
     Genre:{{ movie.genres }}<br>
     Year: {{ movie.year }}
 </p>
+<form action="" method="post">
+    {{form.hidden_tag()}}
+    <p>
+        {{form.rating.label}}<br>
+        {{form.rating(size=8)}}<br>
+        {% for error in form.rating.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{form.comment.label}}<br>
+        {{form.comment(rows='5',cols='100')}}
+    </p>
+    <p>
+        {{form.submit()}}
+    </p>
+</form>
 {% endblock %}
 
 {% block js %}
