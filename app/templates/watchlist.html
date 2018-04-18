@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            <ul style="list-style-type:none">
+                {% for movie in movies %}
+                <h5>{{movie.title}}</h5>
+                <a href="/review/{{movie.movieId}}" style="margin-right: 10px;">Review</a> <a href="/removeFromWatchlist/{{movie.movieId}}/watchlist">Remove</a>
+                <hr>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
