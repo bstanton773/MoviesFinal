@@ -17,5 +17,5 @@ def search():
     if form.search.data is not None:
         movies = Movies.query.filter(Movies.title.like('%' + form.search.data + '%')).all()
     else:
-        movies = Movies.query.all()
+        movies = Movies.query.limit(10)
     return render_template('search.html', form=form, movies=movies)

@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<form action="search" method="post">
-    {{form.hidden_tag()}}
-    <p>
-        {{form.search.label}}<br>
-        {{form.search(size=64)}}
-    </p>
-    <p>
-        {{form.submit()}}
-    </p>
-</form>
-<ol>
-    {% for movie in movies %}
-    <li>{{movie.title}}</li>
-    {% endfor %}
-</ol>
-
-
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            <form action="search" method="post">
+                {{form.hidden_tag()}}
+                <p>
+                    {{form.search.label}}<br>
+                    {{form.search(size=64)}}
+                </p>
+                <p>
+                    {{form.submit()}}
+                </p>
+            </form>
+            <ul style="list-style-type:none">
+                {% for movie in movies %}
+                <li>{{movie.title}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col">
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
