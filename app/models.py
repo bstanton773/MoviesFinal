@@ -24,3 +24,11 @@ class Movies(db.Model):
     title = db.Column(db.String(400))
     genres = db.Column(db.String(400))
     year = db.Column(db.Integer)
+
+class Reviews(db.Model):
+    review_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movieId'))
+    rating = db.Column(db.Integer)
+    comment = db.Column(db.String(1000))
+    watchlist = db.Column(db.Integer)
