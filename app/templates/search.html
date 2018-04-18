@@ -17,7 +17,9 @@
             </form>
             <ul style="list-style-type:none">
                 {% for movie in movies %}
-                <li>{{movie.title}}</li>
+                <h5>{{movie.title}}</h5>
+                <a href="/review/{{movie.movieId}}" style="margin-right: 10px;">Review</a> <a href="#">Add to Watchlist</a>
+                <hr>
                 {% endfor %}
             </ul>
         </div>
