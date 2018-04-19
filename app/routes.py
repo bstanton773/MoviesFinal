@@ -40,7 +40,6 @@ def review(movieId):
         Movies, Reviews.movie_id == Movies.movieId).join(
         User, Reviews.user_id == User.id).add_columns(
         Movies.title, Movies.movieId, Reviews.comment, User.username).all()
-    print(comments)
     return render_template('review.html', movie = movie, title='Review', form=form, comments=comments)
 
 @app.route('/watchlist')
@@ -72,3 +71,13 @@ def removeFromWatchlist(movieId, from_page):
         return redirect(url_for('watchlist'))
     else:
         return redirect(url_for('search'))
+
+@app.route('/myreviews')
+def myreviews():
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
+    my_reviews = Reviews.query.filter_by(user_id = current_user.id).join(
+        Movies, Reviews.movie_id == Movies.movieId).add_columns(
+        Movies.title, Movies.genres, Movies.year, Movies.movieId, Reviews.rating, Reviews.comment).all()
+    print(my_reviews)
+    return render_template('myreviews.html', title='My Watchlist', reviews = my_reviews)
