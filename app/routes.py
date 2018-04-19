@@ -18,7 +18,9 @@ def search():
     if form.search.data is not None:
         movies = Movies.query.filter(Movies.title.like('%' + form.search.data + '%')).all()
     else:
-        movies = Movies.query.limit(10)
+        #movies = Movies.query.limit(10)
+        movies = db.engine.execute("SELECT movies.title, AVG(rating) FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+        print(movies)
     return render_template('search.html', form=form, movies=movies, title='Search')
 
 @app.route('/review/<int:movieId>', methods=['GET','POST'])
@@ -79,5 +81,4 @@ def myreviews():
     my_reviews = Reviews.query.filter_by(user_id = current_user.id).join(
         Movies, Reviews.movie_id == Movies.movieId).add_columns(
         Movies.title, Movies.genres, Movies.year, Movies.movieId, Reviews.rating, Reviews.comment).all()
-    print(my_reviews)
     return render_template('myreviews.html', title='My Watchlist', reviews = my_reviews)
