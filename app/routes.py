@@ -3,13 +3,17 @@ from flask import render_template, redirect, url_for, flash
 from app.models import Movies, Reviews, User
 from app.forms import SearchForm, ReviewForm
 from flask_login import current_user
+from sqlalchemy.sql import func
+
 
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    movies = Movies.query.all()
+    movies = db.engine.execute(
+        "SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+
     return render_template('index.html', title='Home', movies = movies)
 
 @app.route('/search', methods=['GET','POST'])
@@ -17,10 +21,20 @@ def search():
     form = SearchForm()
     if form.search.data is not None:
         movies = Movies.query.filter(Movies.title.like('%' + form.search.data + '%')).all()
+
+        # movies_query= '''
+        #     SELECT movieId, title, genres, year, AVG(rating)
+        #     FROM movies
+        #     LEFT OUTER JOIN reviews
+        #     ON movies.movieId = reviews.movie_id
+        #     WHERE movies.title like 'Toy Story'
+        #     GROUP BY movies.movieID
+        # '''
+        # print(movies_query)
+        # movies = db.engine.execute(movies_query)
+
     else:
-        #movies = Movies.query.limit(10)
-        movies = db.engine.execute("SELECT movies.title, AVG(rating) FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
-        print(movies)
+        movies = db.engine.execute("SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
     return render_template('search.html', form=form, movies=movies, title='Search')
 
 @app.route('/review/<int:movieId>', methods=['GET','POST'])

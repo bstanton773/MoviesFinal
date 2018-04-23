@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1>Hello World!</h1>
-
+<div class="row">
+    <div class="col-8">
+    <h3>Hello and welcome to MyMovieRatings.com!</h3>
+        <hr>
+        <img src="/static/images/hero.jpg" alt="Hero Image" width="100%">
+        <p>How often does somebody recommend a movie to you and you mentally add it to your list but when it comes time to pick a movie, you forgot the recommendation. Or somebody asks you what you thought of a specific movie and you can only give a generic response because you can't remember specifically what you did and did not like? That is where MyMovieRatings.com comes in handy! Just sign up and we'll keep track of all of that for you!</p>
+    </div>
+    <div class="col">
+        <h6>Top Movies</h6>
+        <ol>
+        {% for movie in movies %}
+        <li>{{movie.title}}</li>
+                <a href="/review/{{movie.movieId}}" style="margin-right: 10px;">Review</a>
+                <a href="/addToWatchlist/{{movie.movieId}}/search">Add to Watchlist</a>
+            {% endfor %}
+        </ol>
+    </div>
 {% endblock %}
 
 {% block js %}

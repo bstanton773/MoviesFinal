@@ -7,9 +7,11 @@
         <div class="col-6">
             <ul style="list-style-type:none">
                 {% for review in reviews %}
+                {% if review.rating != None %}
                 <h5>{{ review.title }}</h5><br>
                 <p>{{ review.rating }} - {{ review.comment }}</p>
                 <hr>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
