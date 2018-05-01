@@ -94,5 +94,14 @@ def myreviews():
         return redirect(url_for('login'))
     my_reviews = Reviews.query.filter_by(user_id = current_user.id).join(
         Movies, Reviews.movie_id == Movies.movieId).add_columns(
-        Movies.title, Movies.genres, Movies.year, Movies.movieId, Reviews.rating, Reviews.comment).all()
+        Movies.title, Movies.genres, Movies.year, Movies.movieId, Reviews.rating, Reviews.comment, Reviews.review_id).order_by(Reviews.rating.desc()).all()
     return render_template('myreviews.html', title='My Watchlist', reviews = my_reviews)
+
+@app.route('/removeFromMyReviews/<int:review_id>')
+def removeFromMyReviews(review_id):
+    if current_user.is_anonymous:
+        return redirect(url_for('login'))
+    review = Reviews.query.filter_by(user_id = current_user.id, review_id = review_id).first()
+    db.session.delete(review)
+    db.session.commit()
+    return redirect(url_for('myreviews'))

@@ -8,8 +8,10 @@
             <ul style="list-style-type:none">
                 {% for review in reviews %}
                 {% if review.rating != None %}
-                <h5>{{ review.title }}</h5><br>
-                <p>{{ review.rating }} - {{ review.comment }}</p>
+                <h5>{{ review.title }}</h5>
+                <p>Rating: {{ review.rating }}<br>
+                    Comment: {{ review.comment }}</p>
+                <a href="/removeFromMyReviews/{{review.review_id}}">Remove</a>
                 <hr>
                 {% endif %}
                 {% endfor %}
