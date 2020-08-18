@@ -11,8 +11,9 @@ from sqlalchemy.sql import func
 @app.route('/')
 @app.route('/index')
 def index():
-    movies = db.engine.execute(
-        "SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+    # movies = db.engine.execute(
+    #     "SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+    movies = Movies.query.filter_by(movieId=1)
 
     return render_template('index.html', title='Home', movies = movies)
 
@@ -34,7 +35,9 @@ def search():
         # movies = db.engine.execute(movies_query)
 
     else:
-        movies = db.engine.execute("SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+        # movies = db.engine.execute("SELECT movies.title, AVG(rating), movies.movieId FROM movies.reviews JOIN movies ON movies.movieId = reviews.movie_id GROUP BY movie_id ORDER BY AVG(rating) DESC LIMIT 10;")
+        movies = Movies.query.all()
+        # movies = ["The Lion King"]
     return render_template('search.html', form=form, movies=movies, title='Search')
 
 @app.route('/review/<int:movieId>', methods=['GET','POST'])

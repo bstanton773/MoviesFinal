@@ -6,6 +6,8 @@ app.config.from_object(Config)
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_heroku import Heroku
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
