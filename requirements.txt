@@ -9,7 +9,7 @@ email-validator==1.1.1
 eventbrite==3.3.3
 fasteners==0.14.1
 Flask==1.0.2
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 flask-heroku==0.1.9
 Flask-Login==0.4.1
 Flask-Migrate==2.2.1
